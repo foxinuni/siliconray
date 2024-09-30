@@ -20,7 +20,7 @@ int main(int argc, char* argv[]){
     unsigned char* image = (unsigned char*) malloc(WIDTH * HEIGHT * 3);
     
     // create origin
-    vec3d origin = vec3d_new(0, 0, -12.5);
+    vec3d camera = vec3d_new(0, 0, -12.5);
 
     // create atoms
     atom_t* atoms[] = {
@@ -43,10 +43,34 @@ int main(int argc, char* argv[]){
         create_sphere(vec3d_new(-5, 0, 0), 1),
 
         // quirkies
-        create_sphere(vec3d_new(2.5, 2.5, 2.5), 1),
-        create_sphere(vec3d_new(-2.5, 2.5, -2.5), 1),
-        create_sphere(vec3d_new(-2.5, -2.5, 2.5), 1),
-        create_sphere(vec3d_new(2.5, -2.5, -2.5), 1),
+        create_sphere(vec3d_new(-2.5, 2.5, 2.5), 1),
+        create_sphere(vec3d_new(2.5, -2.5, 2.5), 1),
+        create_sphere(vec3d_new(2.5, 2.5, -2.5), 1),
+        create_sphere(vec3d_new(-2.5, -2.5, -2.5), 1),
+
+        // bottom connections
+        create_cylinder(vec3d_new(-5, -5, -5), vec3d_new(-2.5, -2.5, -2.5), 0.2), // vert - quirky
+        create_cylinder(vec3d_new(-2.5, -2.5, -2.5), vec3d_new(0, -5, 0), 0.2),   // quirky - face
+        create_cylinder(vec3d_new(0, -5, 0), vec3d_new(2.5, -2.5, 2.5), 0.2),     // face - quirky
+        create_cylinder(vec3d_new(2.5, -2.5, 2.5), vec3d_new(5, -5, 5), 0.2),     // quirky - vert
+
+        // half-bottom connections
+        create_cylinder(vec3d_new(-5, 0, 0), vec3d_new(-2.5, -2.5, -2.5), 0.2), // face - bottom quirky
+        create_cylinder(vec3d_new(-2.5, -2.5, -2.5), vec3d_new(0, 0, -5), 0.2), // bottom quirky - face
+        create_cylinder(vec3d_new(5, 0, 0), vec3d_new(2.5, -2.5, 2.5), 0.2),    // face - bottom quirky
+        create_cylinder(vec3d_new(2.5, -2.5, 2.5), vec3d_new(0, 0, 5), 0.2),    // bottom quirky - face
+
+        // top connections
+        create_cylinder(vec3d_new(-5, 5, 5), vec3d_new(-2.5, 2.5, 2.5), 0.2), // vert - quirky
+        create_cylinder(vec3d_new(-2.5, 2.5, 2.5), vec3d_new(0, 5, 0), 0.2),   // quirky - face
+        create_cylinder(vec3d_new(0, 5, 0), vec3d_new(2.5, 2.5, -2.5), 0.2),   // face - quirky
+        create_cylinder(vec3d_new(2.5, 2.5, -2.5), vec3d_new(5, 5, -5), 0.2),   // quirky - vert
+
+        // half-top connections
+        create_cylinder(vec3d_new(-5, 0, 0), vec3d_new(-2.5, 2.5, 2.5), 0.2), // face - top quirky
+        create_cylinder(vec3d_new(-2.5, 2.5, 2.5), vec3d_new(0, 0, 5), 0.2), // top quirky - face
+        create_cylinder(vec3d_new(5, 0, 0), vec3d_new(2.5, 2.5, -2.5), 0.2),  // face - top quirky
+        create_cylinder(vec3d_new(2.5, 2.5, -2.5), vec3d_new(0, 0, -5), 0.2), // top quirky - face
     };
 
     // raycast atom for each pixel    
@@ -60,7 +84,7 @@ int main(int argc, char* argv[]){
             float distance = DISTANCE;
 
             // raycast atom
-            vec3d hit_color = raycast_universe(atoms, 18, origin, vec3d_norm(vec3d_new(ndc_x, ndc_y, 1)), &distance);
+            vec3d hit_color = raycast_universe(atoms, 34, camera, vec3d_norm(vec3d_new(ndc_x, ndc_y, 1)), &distance);
 
             // write color
             image[3 * (y * WIDTH + x) + 0] = hit_color.r;
