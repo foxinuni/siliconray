@@ -112,12 +112,12 @@ bool raycast_atom(atom_t *atom, vec3d origin, vec3d direction, float *distance) 
     return match;
 }
 
-vec3d raycast_universe(atom_t* atoms[], int count, vec3d camera, vec3d direction, float* distance) {
+vec3d raycast_universe(atom_t* atoms[], int count, vec3d camera, vec3d light, vec3d direction, float* distance) {
     float max_distance = *distance;
     float min_distance = *distance;
     vec3d hit_color = vec3d_new(0, 0, 0);
 
-    vec3d light_position = vec3d_new(10, 10, -15);
+    vec3d light_position = light;
     vec3d light_color = vec3d_new(255, 255, 255);
 
     for (int i = 0; i < count; i++) {
