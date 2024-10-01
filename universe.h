@@ -40,6 +40,7 @@ typedef struct {
 // destroys the atom independent of kind
 bool raycast_atom(atom_t* atom, vec3d origin, vec3d direction, float* distance);
 vec3d raycast_universe(atom_t* atoms[], int count, vec3d camera, vec3d light, vec3d direction, float* distance);
+vec3d raycast_shade(vec3d hit_color, vec3d normal, vec3d light_direction, vec3d light_color);
 vec3d atom_normal(atom_t* atom, vec3d point);
 
 void destroy_atom(atom_t* atom);

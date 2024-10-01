@@ -131,17 +131,33 @@ vec3d raycast_universe(atom_t* atoms[], int count, vec3d camera, vec3d light, ve
             // calculate the light direction and intensity
             vec3d light_direction = vec3d_norm(vec3d_sub(light_position, hit_point));
 
-            // calculate the lambertian shading
-            float lambertian = fmax(0, vec3d_dot(normal, light_direction));
-            
+            #ifdef DEBUG
             // translate the distance to a color where 0 -> black and 1 -> white (full color spectrum)
             float t = min_distance / max_distance;
 
-            hit_color.r = (1.0 - t) * 255 * lambertian;
-            hit_color.g = t * 255 * lambertian;
-            hit_color.b = (1.0 - fabs(0.5 - t) * 2.0) * 255 * lambertian;
+            hit_color.r = (1.0 - t) * 255;
+            hit_color.g = t * 255;
+            hit_color.b = (1.0 - fabs(0.5 - t) * 2.0) * 255;
+            #else
+            hit_color = vec3d_new(255, 255, 255);
+            #endif
+            
+            // calculate the lambertian shading
+            hit_color = raycast_shade(hit_color, normal, light_direction, light_color);
         }
     }
+
+    return hit_color;
+}
+
+vec3d raycast_shade(vec3d hit_color, vec3d normal, vec3d light_direction, vec3d light_color) {
+    // calculate the lambertian shading
+    float lambertian = fmax(0, vec3d_dot(normal, light_direction));
+
+    // translate the distance to a color where 0 -> black and 1 -> white (full color spectrum)
+    hit_color.r = hit_color.r * lambertian;
+    hit_color.g = hit_color.g * lambertian;
+    hit_color.b = hit_color.b * lambertian;
 
     return hit_color;
 }
