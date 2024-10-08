@@ -4,7 +4,7 @@ project(siliconray VERSION 0.1.0 LANGUAGES C)
 # Add the include directory to the project
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-add_executable(siliconray main.c universe.c math.c)
+add_executable(siliconray main.c universe.c math.c rendering.c)
 
 # Set DEBUG preprocessor definition
 target_compile_definitions(siliconray PRIVATE DEBUG)

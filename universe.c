@@ -102,11 +102,11 @@ bool raycast_atom(atom_t *atom, vec3d origin, vec3d direction, float *distance) 
             break;
         }
         default:
-            printf("Error: atom kind (%d) doesn't implement raycast!\n", atom->kind);
+            printf("error: atom kind (%d) doesn't implement raycast!\n", atom->kind);
     }
 
     if (!match) {
-        printf("Error: atom kind (%d) didn't match properties!\n", atom->kind);
+        printf("error: atom kind (%d) didn't match properties!\n", atom->kind);
     }
 
     return match;
@@ -192,7 +192,7 @@ vec3d atom_normal(atom_t* atom, vec3d point) {
             break;
         }
         default:
-            printf("Error: atom kind (%d) doesn't implement normal!\n", atom->kind);
+            printf("error: atom kind (%d) doesn't implement normal!\n", atom->kind);
     }
 
     return normal;
@@ -236,11 +236,11 @@ void print_atom(atom_t* atom) {
             break;
         }
         default: 
-            printf("Error: atom kind (%d) doesn't implement print!\n", atom->kind);
+            printf("error: atom kind (%d) doesn't implement print!\n", atom->kind);
     }
 
     if (!match) {
-        printf("Error: atom kind (%d) didn't match properties!\n", atom->kind);
+        printf("error: atom kind (%d) didn't match properties!\n", atom->kind);
     }
 }
 
